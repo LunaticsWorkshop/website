@@ -1,0 +1,4 @@
+baseURL = 'https://lunaticsworkshop.github.io/'
+languageCode = 'de-DE'
+title = "Lunatic's Workshop"
+defaultContentLanguage = 'de'
