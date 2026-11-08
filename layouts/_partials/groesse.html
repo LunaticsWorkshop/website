@@ -1,0 +1,5 @@
+{{- if ge . 1048576 -}}
+{{ lang.FormatNumber 1 (div (float .) 1048576) }} MB
+{{- else -}}
+{{ lang.FormatNumber 0 (math.Ceil (div (float .) 1024)) }} KB
+{{- end -}}

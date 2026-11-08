@@ -1,0 +1,106 @@
+{{/* Vorlage für eine einzelne Projektseite */}}
+{{ define "main" }}
+<article class="projekt">
+
+  {{/* 1. Titel, Kurzbeschreibung, Kategorien */}}
+  <header>
+    <h1>{{ .Title }}</h1>
+    {{ with .Summary }}<p class="kurz">{{ . | plainify }}</p>{{ end }}
+    {{ partial "kategorien-tags.html" . }}
+  </header>
+
+  {{/* 2. Vorschaubild, verlinkt auf YouTube (falls ein Video angegeben ist) */}}
+  {{ $vorschau := .Resources.GetMatch "vorschau.*" }}
+  {{ with $vorschau }}
+    {{ $bild := .Process "resize 960x webp" }}
+    {{ with $.Params.youtube }}
+      <a class="video" href="{{ . }}" rel="noopener">
+        <img src="{{ $bild.RelPermalink }}" width="{{ $bild.Width }}" height="{{ $bild.Height }}" alt="Vorschaubild zum Video">
+        <span class="video-hinweis">▶ Video auf YouTube ansehen</span>
+      </a>
+    {{ else }}
+      <img class="vorschau" src="{{ $bild.RelPermalink }}" width="{{ $bild.Width }}" height="{{ $bild.Height }}" alt="">
+    {{ end }}
+  {{ else }}
+    {{ with $.Params.youtube }}<p><a href="{{ . }}" rel="noopener">▶ Video auf YouTube ansehen</a></p>{{ end }}
+  {{ end }}
+
+  {{/* 3. 3D-Vorschau: kommt in einem späteren Schritt */}}
+
+  {{/* 4. Downloads der aktuellen Version (= erster Eintrag in "versionen") */}}
+  {{ with .Params.versionen }}
+    {{ with index . 0 }}
+    <section>
+      <h2>Downloads <span class="version">Version {{ .version }}</span></h2>
+      {{ partial "dateiliste.html" (dict "seite" $ "dateien" .dateien) }}
+    </section>
+    {{ end }}
+  {{ end }}
+
+  {{/* 5. Beschreibung und Anleitung (der Text unter dem Front Matter) */}}
+  {{ with .Content }}
+  <section class="text">
+    <h2>Beschreibung und Anleitung</h2>
+    {{ . }}
+  </section>
+  {{ end }}
+
+  {{/* 6. Bildergalerie: alle Bilder im Ordner "bilder" */}}
+  {{ with .Resources.Match "bilder/*.{jpg,jpeg,png,webp}" }}
+  <section>
+    <h2>Bilder</h2>
+    <div class="galerie">
+      {{ range . }}
+        {{ $klein := .Process "fill 300x300 webp" }}
+        <a href="{{ .RelPermalink }}"><img src="{{ $klein.RelPermalink }}" width="300" height="300" alt="" loading="lazy"></a>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+
+  {{/* 7. Versionsliste */}}
+  {{ with .Params.versionen }}
+  <section>
+    <h2>Versionen</h2>
+    <table class="versionen">
+      <thead>
+        <tr>
+          <th>Version</th><th>Datum</th><th>Änderungen</th>
+          {{ if $.Params.alte_downloads }}<th>Dateien</th>{{ end }}
+        </tr>
+      </thead>
+      <tbody>
+      {{ range $i, $v := . }}
+        <tr>
+          <td><code>{{ $v.version }}</code></td>
+          <td>{{ with $v.datum }}{{ time.Format "02.01.2006" . }}{{ end }}</td>
+          <td>{{ $v.aenderungen }}</td>
+          {{ if $.Params.alte_downloads }}
+            <td>{{ if gt $i 0 }}{{ partial "dateiliste.html" (dict "seite" $ "dateien" $v.dateien) }}{{ else }}siehe Downloads oben{{ end }}</td>
+          {{ end }}
+        </tr>
+      {{ end }}
+      </tbody>
+    </table>
+  </section>
+  {{ end }}
+
+  {{/* 8. Lizenzhinweis */}}
+  <section class="lizenz">
+    <h2>Lizenz</h2>
+    <p>Dieses Projekt steht unter der Lizenz
+      <a href="{{ site.Params.lizenz.url }}" rel="license">{{ site.Params.lizenz.name }}</a>
+      (Namensnennung – nicht kommerziell – Weitergabe unter gleichen Bedingungen).</p>
+    {{ with .Params.lizenzhinweis }}<p>{{ . | markdownify }}</p>{{ end }}
+  </section>
+
+  {{/* 9. Verwandte Projekte (gleiche Kategorien) */}}
+  {{ with site.RegularPages.Related . | first 5 }}
+  <section>
+    <h2>Verwandte Projekte</h2>
+    <ul>{{ range . }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ul>
+  </section>
+  {{ end }}
+
+</article>
+{{ end }}

@@ -1,0 +1,19 @@
+{{/* Erwartet: dict "seite" (die Projektseite) und "dateien" (Liste von Pfaden) */}}
+{{ $seite := .seite }}
+{{ with .dateien }}
+<ul class="dateien">
+  {{ range . }}
+    {{ with $seite.Resources.Get . }}
+      {{ $bytes := len .Content }}
+      <li>
+        <a href="{{ .RelPermalink }}" download><code>{{ path.Base .Name }}</code></a>
+        <span class="info">{{ upper (strings.TrimPrefix "." (path.Ext .Name)) }} · {{ partial "groesse.html" $bytes }}</span>
+      </li>
+    {{ else }}
+      <li class="fehlt">Datei nicht gefunden: <code>{{ . }}</code></li>
+    {{ end }}
+  {{ end }}
+</ul>
+{{ else }}
+<p class="hinweis">Dateien folgen.</p>
+{{ end }}

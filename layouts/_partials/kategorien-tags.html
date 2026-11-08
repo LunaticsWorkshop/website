@@ -1,0 +1,6 @@
+{{/* Kategorien eines Projekts als kleine Schildchen */}}
+{{ with .GetTerms "kategorien" }}
+<ul class="kategorien">
+  {{ range . }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}
+</ul>
+{{ end }}

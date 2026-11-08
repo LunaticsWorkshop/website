@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="utf-8">
-  <title>{{ site.Title }}</title>
-  <style>
-    body { background: #1e1f22; color: #e0e0e0; font-family: sans-serif; padding: 2rem; }
-  </style>
-</head>
-<body>
-  <h1>{{ site.Title }}</h1>
-  <p>Hier entsteht meine Werkstatt-Website.</p>
-</body>
-</html>
+{{ define "main" }}
+  <section class="intro">
+    <h1>{{ site.Title }}</h1>
+    <p>{{ site.Params.beschreibung }}</p>
+  </section>
+
+  <h2>Neueste Projekte</h2>
+  {{ partial "projektliste.html" (first 6 (where site.RegularPages "Section" "projekte")) }}
+
+  <h2>Kategorien</h2>
+  {{ partial "kategorieliste.html" . }}
+{{ end }}

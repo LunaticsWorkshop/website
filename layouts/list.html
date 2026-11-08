@@ -1,0 +1,8 @@
+{{/* Übersichtsseiten: "Projekte" und einzelne Kategorien (z. B. /kategorien/holz/) */}}
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+  <p class="filter-titel">Nach Kategorie filtern:</p>
+  {{ partial "kategorieliste.html" . }}
+  {{ partial "projektliste.html" .Pages }}
+{{ end }}

@@ -1,4 +1,35 @@
 baseURL = 'https://lunaticsworkshop.github.io/'
 languageCode = 'de-DE'
-title = "Lunatic's Workshop"
 defaultContentLanguage = 'de'
+title = "Lunatic's Workshop"
+
+# Eigene Taxonomie "Kategorien" (ersetzt Hugos Standard "tags/categories")
+[taxonomies]
+  kategorie = 'kategorien'
+
+[params]
+  beschreibung = 'Bastelprojekte zum Nachbauen – Dateien und Anleitungen kostenlos zum Download.'
+  youtubeKanal = 'https://www.youtube.com/@LunaticsWorkshop'
+  [params.lizenz]
+    name = 'CC BY-NC-SA 4.0'
+    url = 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.de'
+
+# Hauptmenü oben auf jeder Seite
+[menus]
+  [[menus.main]]
+    name = 'Projekte'
+    pageRef = '/projekte'
+    weight = 10
+  [[menus.main]]
+    name = 'Kategorien'
+    pageRef = '/kategorien'
+    weight = 20
+
+# "Verwandte Projekte": Projekte mit gleichen Kategorien
+[related]
+  includeNewer = true
+  threshold = 1
+  toLower = true
+  [[related.indices]]
+    name = 'kategorien'
+    weight = 100

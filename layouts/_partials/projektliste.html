@@ -1,0 +1,23 @@
+{{/* Erwartet eine Liste von Projektseiten und zeigt sie als Karten */}}
+{{ with . }}
+<ul class="projektliste">
+  {{ range . }}
+  <li class="karte">
+    <a href="{{ .RelPermalink }}">
+      {{ with .Resources.GetMatch "vorschau.*" }}
+        {{ with .Process "fill 400x250 webp" }}
+          <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="" loading="lazy">
+        {{ end }}
+      {{ else }}
+        <div class="platzhalter">kein Bild</div>
+      {{ end }}
+      <span class="titel">{{ .Title }}</span>
+    </a>
+    {{ with .Summary }}<p>{{ . | plainify }}</p>{{ end }}
+    {{ partial "kategorien-tags.html" . }}
+  </li>
+  {{ end }}
+</ul>
+{{ else }}
+<p class="hinweis">Noch keine Projekte.</p>
+{{ end }}

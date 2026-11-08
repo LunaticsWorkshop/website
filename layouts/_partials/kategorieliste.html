@@ -1,0 +1,6 @@
+{{/* Alle Kategorien, die mindestens ein Projekt haben, mit Anzahl */}}
+<ul class="kategorien gross">
+  {{ range site.Taxonomies.kategorien.ByCount }}
+    <li><a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }} <span class="anzahl">{{ .Count }}</span></a></li>
+  {{ end }}
+</ul>

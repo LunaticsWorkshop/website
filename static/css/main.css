@@ -1,0 +1,75 @@
+/* ===== Farben und Schriften ===== */
+:root {
+  --hintergrund: #1b1c1e;   /* dunkles Werkstattgrau */
+  --flaeche:     #25272a;   /* Karten, Tabellen */
+  --linie:       #3a3d41;
+  --text:        #e4e2dd;
+  --text-leise:  #a09d97;
+  --akzent:      #e0a048;   /* warmes Messing/Holz */
+  --schrift:      system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --schrift-mono: ui-monospace, "Cascadia Mono", Consolas, "DejaVu Sans Mono", monospace;
+}
+
+/* ===== Grundlayout ===== */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--hintergrund);
+  color: var(--text);
+  font-family: var(--schrift);
+  line-height: 1.6;
+}
+main { max-width: 60rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+a { color: var(--akzent); }
+a:hover { text-decoration: none; }
+h1, h2 { line-height: 1.25; }
+h2 { border-bottom: 1px solid var(--linie); padding-bottom: .3rem; margin-top: 2.5rem; }
+code { font-family: var(--schrift-mono); font-size: .9em; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* ===== Kopf und Fuß ===== */
+.kopf {
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;
+  padding: .8rem 1rem; border-bottom: 2px solid var(--akzent); background: var(--flaeche);
+}
+.logo { font-family: var(--schrift-mono); font-weight: bold; font-size: 1.2rem; color: var(--text); text-decoration: none; }
+.kopf nav a { margin-left: 1rem; color: var(--text); text-decoration: none; }
+.kopf nav a[aria-current="page"], .kopf nav a:hover { color: var(--akzent); }
+.fuss { border-top: 1px solid var(--linie); padding: 1rem; text-align: center; color: var(--text-leise); font-size: .9rem; }
+
+/* ===== Projektkarten ===== */
+.projektliste { list-style: none; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); }
+.karte { background: var(--flaeche); border: 1px solid var(--linie); border-radius: 6px; padding: .8rem; }
+.karte > a { text-decoration: none; color: var(--text); }
+.karte .titel { display: block; font-weight: bold; font-size: 1.1rem; margin-top: .5rem; }
+.karte p { color: var(--text-leise); margin: .4rem 0; }
+.platzhalter { aspect-ratio: 16 / 10; display: grid; place-items: center; background: var(--hintergrund); color: var(--text-leise); border-radius: 4px; }
+
+/* ===== Kategorien-Schildchen ===== */
+.kategorien { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; margin: .5rem 0; }
+.kategorien a {
+  display: inline-block; padding: .1rem .6rem; border: 1px solid var(--linie); border-radius: 3px;
+  font-size: .85rem; text-decoration: none; color: var(--text);
+}
+.kategorien a:hover { border-color: var(--akzent); color: var(--akzent); }
+.kategorien.gross a { font-size: 1rem; padding: .3rem .8rem; }
+.anzahl { color: var(--text-leise); font-family: var(--schrift-mono); }
+.filter-titel { margin-bottom: 0; color: var(--text-leise); }
+
+/* ===== Projektseite ===== */
+.kurz { font-size: 1.15rem; color: var(--text-leise); }
+.video { position: relative; display: block; }
+.video-hinweis {
+  position: absolute; left: 1rem; bottom: 1rem; background: rgba(0,0,0,.75);
+  color: #fff; padding: .4rem .8rem; border-radius: 4px;
+}
+.version { font-family: var(--schrift-mono); font-size: .9rem; color: var(--text-leise); font-weight: normal; }
+.dateien { list-style: none; padding: 0; }
+.dateien li { display: flex; flex-wrap: wrap; gap: .8rem; align-items: baseline; padding: .4rem .6rem; border-bottom: 1px solid var(--linie); }
+.dateien .info { color: var(--text-leise); font-family: var(--schrift-mono); font-size: .85rem; }
+.fehlt { color: #e07070; }
+.hinweis { color: var(--text-leise); font-style: italic; }
+.galerie { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); }
+.versionen { width: 100%; border-collapse: collapse; background: var(--flaeche); }
+.versionen th, .versionen td { text-align: left; padding: .4rem .6rem; border: 1px solid var(--linie); vertical-align: top; }
+.lizenz { color: var(--text-leise); }
